@@ -58,7 +58,7 @@ namespace Matterless.Localisation
         public void RegisterUnityUIComponents(GameObject rootObject)
         {
             // register all Text in children
-            foreach (var uiText in rootObject.GetComponentsInChildren<Text>())
+            foreach (var uiText in rootObject.GetComponentsInChildren<Text>(true))
             {
                 if (HasPrefix(uiText.text))
                 {
