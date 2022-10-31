@@ -1,0 +1,12 @@
+{
+  "name": "com.matterless.module.localisation",
+  "version": "1.0.0",
+  "displayName": "Matterless Localisation Module",
+  "description": "Localisation Module for Matterless.",
+  "unity": "2019.1",
+  "author": {
+    "name": "Matterless",
+    "email": "andreas@matterless.com",
+    "url": "https://www.matterless.com"
+  }
+}
