@@ -1,6 +1,6 @@
 {
   "name": "com.matterless.module.localisation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Matterless Localisation Module",
   "description": "Localisation Module for Matterless.",
   "unity": "2019.1",
