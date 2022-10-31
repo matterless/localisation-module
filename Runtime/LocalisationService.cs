@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Scripting;
 
 namespace Matterless.Localisation
 {
@@ -13,10 +14,16 @@ namespace Matterless.Localisation
         // localisation dictionary
         private Dictionary<string, string> m_Dictionary;
         // list of text ui components
-        private List<Text> m_TextList = new List<Text>();
+        private List<Text> m_TextList;
         // list of TMPro ui components
-        private List<TextMeshProUGUI> m_TMProList = new List<TextMeshProUGUI>();
+        private List<TextMeshProUGUI> m_TMProList;
 
+        [Preserve]
+        public LocalisationService()
+        {
+            m_TextList = new List<Text>();
+            m_TMProList = new List<TextMeshProUGUI>();
+        }
 
         private void LocaliseAllUiComponents()
         {
