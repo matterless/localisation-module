@@ -13,48 +13,28 @@ namespace Matterless.Localisation
 
         // localisation dictionary
         private Dictionary<string, string> m_Dictionary;
-        // list of text ui components
-        private List<Text> m_TextList;
-        // list of TMPro ui components
-        private List<TextMeshProUGUI> m_TMProList;
+        // list of LocalisationMono components
+        private List<LocalisationMono> m_LocalisationMonoList;
 
         [Preserve]
         public LocalisationService()
         {
-            m_TextList = new List<Text>();
-            m_TMProList = new List<TextMeshProUGUI>();
+            m_LocalisationMonoList = new List<LocalisationMono>();
         }
 
         private void LocaliseAllUiComponents()
         {
             // lasy -> remove null values from lists
-            m_TextList.RemoveAll(item => item == null);
-            m_TMProList.RemoveAll(item => item == null);
+            m_LocalisationMonoList.RemoveAll(item => item == null);
 
             // localise all text
-            foreach (var item in m_TextList)
-                Localise(item);
-
-            // localise all tmpro
-            foreach (var item in m_TMProList)
-                Localise(item);
-        }
-
-        private void Localise(Text uiText)
-        {
-            // translate if the string starts with the PREFIX
-            if (HasPrefix(uiText.text))
-                uiText.text = Translate(uiText.text);
-        }
-
-        private void Localise(TextMeshProUGUI uiText)
-        {
-            // translate if the string starts with the PREFIX
-            if (HasPrefix(uiText.text))
-                uiText.text = Translate(uiText.text);
+            foreach (var item in m_LocalisationMonoList)
+                item.Translate(this);
         }
 
         private bool HasPrefix(string text) => text.Length > PREFIX.Length && text.StartsWith(PREFIX);
+
+        private string GetPrefix(string text) => text.Substring(PREFIX.Length, text.Length - PREFIX.Length);
 
         #region ILocalisationService
         public event Action onLanguageChanged;
@@ -80,15 +60,20 @@ namespace Matterless.Localisation
             // register all Text in children
             foreach (var uiText in rootObject.GetComponentsInChildren<Text>())
             {
-                Localise(uiText);
-                m_TextList.Add(uiText);
+                if (HasPrefix(uiText.text))
+                {
+                    var localisationMono = LocalisationMono.Create(uiText, GetPrefix(uiText.text));
+                    localisationMono.Translate(this);
+                    m_LocalisationMonoList.Add(localisationMono);
+                }
             }
 
             // register all TextMeshProUGUI in children
             foreach (var uiText in rootObject.GetComponentsInChildren<TextMeshProUGUI>())
             {
-                Localise(uiText);
-                m_TMProList.Add(uiText);
+                var localisationMono = LocalisationMono.Create(uiText, GetPrefix(uiText.text));
+                localisationMono.Translate(this);
+                m_LocalisationMonoList.Add(localisationMono);
             }
         }
 
