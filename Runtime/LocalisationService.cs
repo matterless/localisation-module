@@ -69,11 +69,14 @@ namespace Matterless.Localisation
             }
 
             // register all TextMeshProUGUI in children
-            foreach (var uiText in rootObject.GetComponentsInChildren<TextMeshProUGUI>())
+            foreach (var uiText in rootObject.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
-                var localisationMono = LocalisationMono.Create(uiText, GetPrefix(uiText.text));
-                localisationMono.Translate(this);
-                m_LocalisationMonoList.Add(localisationMono);
+                if (HasPrefix(uiText.text))
+                {
+                    var localisationMono = LocalisationMono.Create(uiText, GetPrefix(uiText.text));
+                    localisationMono.Translate(this);
+                    m_LocalisationMonoList.Add(localisationMono);
+                }
             }
         }
 
